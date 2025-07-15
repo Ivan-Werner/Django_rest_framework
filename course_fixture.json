@@ -1,0 +1,29 @@
+[
+{
+    "model": "materials.course",
+    "pk": 1,
+    "fields": {
+        "title": "Python-development",
+        "preview": "",
+        "description": "Учимся писать на Пайтон"
+    }
+},
+{
+    "model": "materials.course",
+    "pk": 2,
+    "fields": {
+        "title": "Тестирование",
+        "preview": "",
+        "description": "Введение в тестирование"
+    }
+},
+{
+    "model": "materials.course",
+    "pk": 3,
+    "fields": {
+        "title": "Buisness-analisys",
+        "preview": "",
+        "description": null
+    }
+}
+]

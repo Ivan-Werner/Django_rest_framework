@@ -1,0 +1,35 @@
+[
+{
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+        "title": "Урок 1",
+        "course": 1,
+        "description": "Начало обучения",
+        "preview": "",
+        "link_to_video": null
+    }
+},
+{
+    "model": "materials.lesson",
+    "pk": 2,
+    "fields": {
+        "title": "Урок 2",
+        "course": 1,
+        "description": "все еще учимся писать на Пайтон",
+        "preview": "",
+        "link_to_video": null
+    }
+},
+{
+    "model": "materials.lesson",
+    "pk": 3,
+    "fields": {
+        "title": "Знакомство с тестированием",
+        "course": 2,
+        "description": "Введение в тестирование",
+        "preview": "",
+        "link_to_video": null
+    }
+}
+]
