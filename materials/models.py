@@ -1,6 +1,10 @@
 from django.db import models
 from django.db.models import ForeignKey, SET_NULL
 
+from django.contrib.auth import get_user_model
+
+from config import settings
+
 
 class Course(models.Model):
     title = models.CharField(
@@ -23,6 +27,7 @@ class Course(models.Model):
         verbose_name="Описание",
         help_text="Введите описание",
     )
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Владелец')
 
     class Meta:
         verbose_name = "Курс"
@@ -68,6 +73,7 @@ class Lesson(models.Model):
         verbose_name="Ссылка на видео",
         help_text="Загрузите ссылку на видео",
     )
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Владелец')
 
     class Meta:
         verbose_name = "Урок"
