@@ -5,6 +5,7 @@ from django.db import models
 from materials.models import Course, Lesson
 
 
+
 class User(AbstractUser):
     user_name = None
     email = models.EmailField(
@@ -29,7 +30,7 @@ class User(AbstractUser):
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = "Пользователь"
