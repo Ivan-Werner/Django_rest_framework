@@ -8,6 +8,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from users.views import SubscribeUpdateAPIView
+
 app_name = UsersConfig.name
 
 
@@ -32,4 +34,5 @@ urlpatterns = [
         TokenRefreshView.as_view(permission_classes=[AllowAny]),
         name="token_refresh",
     ),
+    path('subscribe/<int:pk>', SubscribeUpdateAPIView.as_view(), name='subscribe-check'),
 ]
