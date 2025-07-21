@@ -5,7 +5,6 @@ from django.db import models
 from materials.models import Course, Lesson
 
 
-
 class User(AbstractUser):
     user_name = None
     email = models.EmailField(
@@ -41,20 +40,53 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
-    TYPE_CHOICES = [
-        ('cache', 'наличные'),
-        ('transfer', 'перевод')
-
-
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    payment_date = models.DateField(auto_now_add=True, verbose_name='Дата оплаты')
-    paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Оплаченный курс')
-    paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Оплаченный урок')
-    amount = models.DecimalField(decimal_places=2, max_digits=20, verbose_name='Сумма')
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES, verbose_name='Тип оплаты')
+    TYPE_CHOICES = [("cache", "наличные"), ("transfer", "перевод")]
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    payment_date = models.DateField(auto_now_add=True, verbose_name="Дата оплаты")
+    paid_course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name="Оплаченный курс",
+    )
+    paid_lesson = models.ForeignKey(
+        Lesson,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name="Оплаченный урок",
+    )
+    amount = models.DecimalField(decimal_places=2, max_digits=20, verbose_name="Сумма")
+    type = models.CharField(
+        max_length=20, choices=TYPE_CHOICES, verbose_name="Тип оплаты"
+    )
 
     class Meta:
-        verbose_name = 'Платеж'
-        verbose_name_plural = 'Платежи'
+        verbose_name = "Платеж"
+        verbose_name_plural = "Платежи"
 
+
+class Subscribe(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_subscribe",
+        blank=True,
+        null=True,
+        verbose_name="Пользователь",
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="course_subscribe",
+        blank=True,
+        null=True,
+        verbose_name="Курс",
+    )
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"

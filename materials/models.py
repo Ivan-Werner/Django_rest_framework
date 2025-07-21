@@ -27,7 +27,16 @@ class Course(models.Model):
         verbose_name="Описание",
         help_text="Введите описание",
     )
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Владелец')
+    link_to_video = models.URLField(
+        verbose_name="Ссылка на видео", blank=True, null=True
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Владелец",
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -66,14 +75,16 @@ class Lesson(models.Model):
         null=True,
         verbose_name="Превью урока",
     )
-    link_to_video = models.CharField(
-        max_length=100,
+    link_to_video = models.URLField(
+        verbose_name="Ссылка на видео", blank=True, null=True
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        verbose_name="Ссылка на видео",
-        help_text="Загрузите ссылку на видео",
+        verbose_name="Владелец",
     )
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Владелец')
 
     class Meta:
         verbose_name = "Урок"
@@ -81,5 +92,3 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
-
-
