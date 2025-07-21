@@ -7,24 +7,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('materials', '0001_initial'),
-        ('users', '0002_payment'),
+        ("materials", "0001_initial"),
+        ("users", "0002_payment"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='payment',
-            name='paid_course',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='materials.course', verbose_name='Оплаченный курс'),
+            model_name="payment",
+            name="paid_course",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="materials.course",
+                verbose_name="Оплаченный курс",
+            ),
         ),
         migrations.AlterField(
-            model_name='payment',
-            name='paid_lesson',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='materials.lesson', verbose_name='Оплаченный урок'),
+            model_name="payment",
+            name="paid_lesson",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="materials.lesson",
+                verbose_name="Оплаченный урок",
+            ),
         ),
         migrations.AlterField(
-            model_name='payment',
-            name='payment_date',
-            field=models.DateField(auto_now_add=True, verbose_name='Дата оплаты'),
+            model_name="payment",
+            name="payment_date",
+            field=models.DateField(auto_now_add=True, verbose_name="Дата оплаты"),
         ),
     ]
