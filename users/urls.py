@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from users.views import SubscribeUpdateAPIView
+from users.views import SubscribeUpdateAPIView, PaymentCreateAPIView
 
 app_name = UsersConfig.name
 
@@ -23,7 +23,7 @@ urlpatterns = [
     ),
     path("", views.UserListAPIView.as_view(), name="user-list"),
     path("user/<int:pk>/", views.UserRetrieveAPIView.as_view(), name="user-detail"),
-    path("payments/", views.PaymentListAPIView.as_view(), name="payment"),
+    path("payments/", views.PaymentListAPIView.as_view(), name="payments"),
     path(
         "login/",
         TokenObtainPairView.as_view(permission_classes=[AllowAny]),
@@ -35,4 +35,5 @@ urlpatterns = [
         name="token_refresh",
     ),
     path('subscribe/<int:pk>', SubscribeUpdateAPIView.as_view(), name='subscribe-check'),
+    path('payments/create/', PaymentCreateAPIView.as_view(), name='payments-create'),
 ]

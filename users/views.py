@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from materials.models import Course
 from .serializers import UserSerializer, PaymentSerializer
 from users.models import User, Payment, Subscribe
+from .services import create_stripe_price, create_stripe_session, create_stripe_product
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -46,6 +47,16 @@ class UserDeleteAPIView(generics.DestroyAPIView):
 
 class PaymentCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+
+    def perform_create(self, serializer):
+        pay = serializer.save(user=self.request.user)
+        product = create_stripe_product(product_name='new_product')
+        price = create_stripe_price(product, pay.amount)
+        session_id, payment_link = create_stripe_session(price)
+        pay.session_id = session_id
+        pay.link = payment_link
+        pay.save()
 
 
 class PaymentListAPIView(generics.ListAPIView):
