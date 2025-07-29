@@ -2,6 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import eventlet
+
+# Патчим библиотеки для работы с eventlet
+eventlet.monkey_patch()
 
 
 def main():
