@@ -2,7 +2,7 @@ from django.core.serializers import serialize
 from rest_framework.fields import SerializerMethodField, URLField
 from rest_framework.serializers import ModelSerializer
 
-from materials.models import Course, Lesson
+from materials.models import Course, Lesson, Subscribing
 from materials.validators import validate_not_forbidden
 
 
@@ -33,3 +33,8 @@ class CourseSerializer(ModelSerializer):
             "link_to_video",
             "lesson_count",
         ]
+
+class SubscribingSerializer(ModelSerializer):
+    class Meta:
+        model = Subscribing
+        fields = "__all__"

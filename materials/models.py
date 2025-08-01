@@ -4,6 +4,8 @@ from django.db.models import ForeignKey, SET_NULL
 from django.contrib.auth import get_user_model
 
 from config import settings
+from config.settings import AUTH_USER_MODEL
+
 
 
 class Course(models.Model):
@@ -37,6 +39,7 @@ class Course(models.Model):
         null=True,
         verbose_name="Владелец",
     )
+
 
     class Meta:
         verbose_name = "Курс"
@@ -86,9 +89,23 @@ class Lesson(models.Model):
         verbose_name="Владелец",
     )
 
+
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
 
     def __str__(self):
         return self.title
+
+
+class Subscribing(models.Model):
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Пользователь")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Курс", related_name="subscribing_course")
+    sign_up = models.BooleanField(default=False, verbose_name="Подписка")
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
+
+    def __str__(self):
+        return f"{self.user}: {self.course}"

@@ -1,6 +1,11 @@
 import os
-import eventlet
-eventlet.monkey_patch()
+# import eventlet
+# eventlet.monkey_patch()
+
+from celery import Celery
+import gevent
+from gevent import monkey
+monkey.patch_all()
 
 from celery import Celery
 
