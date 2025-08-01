@@ -2,7 +2,12 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+# import eventlet
+#
+# # Патчим библиотеки для работы с eventlet
+# eventlet.monkey_patch()
+from gevent import monkey
+monkey.patch_all()
 
 def main():
     """Run administrative tasks."""
