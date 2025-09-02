@@ -1,9 +1,4 @@
-from django.db.models.expressions import result
-from pyexpat.errors import messages
-from rest_framework import response
-from rest_framework.status import HTTP_200_OK
 from kombu.asynchronous.http import Response
-from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import (
@@ -28,8 +23,6 @@ class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
-
-
     def get_permissions(self):
         if self.action == "create":
             self.permission_classes = [
@@ -49,7 +42,6 @@ class CourseViewSet(ModelViewSet):
         update_course = serializer.save()
         update_course_info.delay(update_course)
         update_course.save()
-
 
 
 class LessonCreateAPIView(CreateAPIView):
