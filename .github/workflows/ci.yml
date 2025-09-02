@@ -87,4 +87,3 @@ jobs:
           docker-compose down --remove-orphans || true
           docker-compose up -d --force-recreate
           EOF
-
