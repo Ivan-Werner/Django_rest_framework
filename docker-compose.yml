@@ -2,7 +2,7 @@ version: '3.12'
 
 services:
   web:
-    build: .
+    image: IvanKalinov1989/myapp:latest
     command: >
       bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     env_file:
@@ -53,6 +53,15 @@ services:
     depends_on:
       - redis
       - db
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - web
 
 
 volumes:

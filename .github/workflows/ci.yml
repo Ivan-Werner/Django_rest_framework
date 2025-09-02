@@ -34,4 +34,60 @@ jobs:
     - name: Run tests
       run: python manage.py test
 
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Log in in Docker Hub
+        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+      - name: Docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+      - name: Push to Docker hub
+        run: |
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:latest
+          
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v2
+        with:
+          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          envkey_NAME: ${{ secrets.NAME }}
+          envkey_USER: ${{ secrets.USER }}
+          envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          envkey_DB_HOST: ${{ secrets.DB_HOST }}
+          envkey_STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+          envkey_CELERY_BROKER_URL: ${{ secrets.CELERY_BROKER_URL }}
+          envkey_CELERY_RESULT_BACKEND: ${{ secrets.CELERY_RESULT_BACKEND }}
+          envkey_EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+          envkey_EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+          envkey_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          envkey_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      - name: Deploy to server
+        run: |
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.USER_NAME }}@${{ secrets.SERVER_IP }}:/myapp 
+          scp -o StrictHostKeyChecking=no nginx.conf ${{ secrets.USER_NAME }}@${{ secrets.SERVER_IP }}:/myapp 
+          scp -o StrictHostKeyChecking=no .env ${{ secrets.USER_NAME }}@${{ secrets.SERVER_IP }}:/myapp 
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.SERVER_IP }} << EOF
+          cd /myapp 
+          docker-compose pull
+          docker-compose down --remove-orphans || true
+          docker-compose up -d --force-recreate
+          EOF
+
+
 
