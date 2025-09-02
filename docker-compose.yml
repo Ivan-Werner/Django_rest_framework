@@ -2,7 +2,7 @@ version: '3.12'
 
 services:
   web:
-    image: IvanKalinov1989/myapp:latest
+    image: ivankalinov1989/myapp:latest
     command: >
       bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     env_file:
@@ -35,7 +35,7 @@ services:
       - ./.env
 
   celery:
-    build: .
+    image: ivankalinov1989/myapp:latest
     command: >
       bash -c "celery -A config worker --loglevel=info --pool=gevent"
     env_file:
@@ -45,7 +45,7 @@ services:
       - db
 
   celery-beat:
-    build: .
+    image: ivankalinov1989/myapp:latest
     env_file:
       - .env
     command: >
