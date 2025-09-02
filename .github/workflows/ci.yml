@@ -29,9 +29,13 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run migrations
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: python manage.py migrate
 
     - name: Run tests
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: python manage.py test
 
   build:
@@ -48,6 +52,7 @@ jobs:
         run: |
           docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:latest
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:latest
+          
           
 
 
