@@ -4,7 +4,6 @@ from materials.models import Subscribing
 from config.settings import EMAIL_HOST_USER
 
 
-
 @shared_task
 def update_course_info(course_id):
     subscribing_course = Subscribing.objects.filter(course=course_id)

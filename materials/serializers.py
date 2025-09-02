@@ -1,4 +1,3 @@
-from django.core.serializers import serialize
 from rest_framework.fields import SerializerMethodField, URLField
 from rest_framework.serializers import ModelSerializer
 
@@ -33,6 +32,7 @@ class CourseSerializer(ModelSerializer):
             "link_to_video",
             "lesson_count",
         ]
+
 
 class SubscribingSerializer(ModelSerializer):
     class Meta:
