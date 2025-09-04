@@ -83,7 +83,9 @@ jobs:
           scp -v -o StrictHostKeyChecking=no .env ${{ secrets.USER_NAME }}@${{ secrets.SERVER_IP }}:/myapp 
           ssh -v -o StrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.SERVER_IP }} << EOF
           cd /myapp 
-          docker-compose pull
-          docker-compose down --remove-orphans || true
-          docker-compose up -d --force-recreate
+          docker compose pull || sudo docker compose pull
+          docker compose down --remove-orphans || true || sudo docker compose down --remove-orphans
+          docker compose up -d --force-recreate || sudo docker compose up -d --force-recreate
           EOF
+
+
